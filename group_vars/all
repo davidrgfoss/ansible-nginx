@@ -1,19 +1,10 @@
 virtualhosts:
-   cuppa:
+   vhost1:
     nameserver: www.pagina1.org
     documentroot: /srv/www/pagina1
     estado: create
-   prueba1:
+   vhost2:
     nameserver: www.pagina2.org
     documentroot: /srv/www/pagina2
-    estado: delete
-   prueba2:
-    nameserver: prueba2.davidrgfoss.com
-    documentroot: /srv/prueba2
-    estado: delete
-   prueba3:
-    nameserver: prueba3.davidrgfoss.com
-    documentroot: /srv/prueba3
-    estado: delete
-
+    estado: create
 

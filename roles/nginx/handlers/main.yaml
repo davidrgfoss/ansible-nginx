@@ -8,6 +8,26 @@
   with_dict: "{{virtualhosts}}"
   when: "{{'create' in item.value.estado}}"
 
+- name: Copiar Index
+  copy:
+    src: index_{{item.key}}.html
+    dest: /{{item.value.documentroot}}/index.html
+    owner: www-data
+    group: www-data
+    mode: 0644
+  with_dict: "{{virtualhosts}}"
+  when: "{{'create' in item.value.estado}}"
+
+- name: Copiar php
+  copy:
+    src: info.php
+    dest: /{{item.value.documentroot}}/info.php
+    owner: www-data
+    group: www-data
+    mode: 0644
+  with_dict: "{{virtualhosts}}"
+  when: "{{'create' in item.value.estado}}"
+
 - name: Activar hosts
   ansible.builtin.file:
     src: /etc/nginx/sites-available/{{item.key}}
