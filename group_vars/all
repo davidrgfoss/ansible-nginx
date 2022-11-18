@@ -6,5 +6,5 @@ virtualhosts:
    vhost2:
     nameserver: www.pagina2.org
     documentroot: /srv/www/pagina2
-    estado: create
+    estado: delete
 
