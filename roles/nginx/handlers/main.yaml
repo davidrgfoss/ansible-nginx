@@ -1,0 +1,36 @@
+- name: Crear directorios
+  ansible.builtin.file:
+    path: "{{item.value.documentroot}}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+  with_dict: "{{virtualhosts}}"
+  when: "{{'create' in item.value.estado}}"
+
+- name: Activar hosts
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/{{item.key}}
+    dest: /etc/nginx/sites-enabled/{{item.key}}
+    state: link
+    mode: 0755
+  with_dict: "{{virtualhosts}}"
+  when: "{{'create' in item.value.estado}}"
+
+- name: Borrar directorios
+  ansible.builtin.file:
+    path: "{{item.value.documentroot}}"
+    state: absent
+  with_dict: "{{virtualhosts}}"
+  when: "{{'delete' in item.value.estado}}"
+
+- name: Borrar enlace simbolico
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/{{item.key}}
+    state: absent
+  with_dict: "{{virtualhosts}}"
+  when: "{{'delete' in item.value.estado}}"
+
+- name: Reiniciar nginx
+  service: name=nginx state=restarted
+

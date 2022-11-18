@@ -1,0 +1,11 @@
+- hosts: all
+  become: true
+  roles:
+   - role: commons
+
+- hosts: nginx
+  become: true
+  roles:
+   - role: nginx
+   - role: mariadb
+   - role: php-fpm

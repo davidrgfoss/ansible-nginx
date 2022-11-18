@@ -1,0 +1,6 @@
+- name: Instalar php-fpm
+  ansible.builtin.apt:
+    pkg: 
+      - php-fpm
+      - php-mysql
+      - php

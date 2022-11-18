@@ -1,0 +1,4 @@
+- name: Instalar Mariadb
+  ansible.builtin.apt:
+    pkg: 
+      - mariadb-server

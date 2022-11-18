@@ -1,0 +1,30 @@
+- name: Instalar Paquetes
+  ansible.builtin.apt:
+    pkg: 
+      - nginx
+
+- name: Configurar hosts en nginx
+  ansible.builtin.template:
+    src: configuraciones.j2
+    dest: /etc/nginx/sites-available/{{item.key}}
+    owner: root
+    group: root
+    mode: '0644'
+    force: no
+  with_dict: "{{virtualhosts}}"
+  when: "{{'create' in item.value.estado}}"
+  notify:
+    - Crear directorios
+    - Activar hosts
+    - Reiniciar nginx
+
+- name: Borrar hosts
+  ansible.builtin.file:
+    path: /etc/nginx/sites-available/{{item.key}}
+    state: absent
+  with_dict: "{{virtualhosts}}"
+  when: "{{'delete' in item.value.estado}}"
+  notify:
+    - Borrar directorios
+    - Borrar enlace simbolico
+    - Reiniciar nginx

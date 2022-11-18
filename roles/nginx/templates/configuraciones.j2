@@ -1,0 +1,15 @@
+server {
+	listen 80;
+	listen [::]:80;
+	server_name {{item.value.nameserver}};
+	root {{item.value.documentroot}};
+	index index.html index.php;
+	location / {
+		try_files $uri $uri/ /index.html;
+	}
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+	}
+}
+
